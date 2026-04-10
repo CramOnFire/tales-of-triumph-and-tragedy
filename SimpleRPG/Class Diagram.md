@@ -9,26 +9,26 @@
 |      |
 |      |
 ## Inventory
+| abstract class Item      |
+| ----------------------- |
+| ~ name: String          |
+| + Item(String name): Item<br>+ getName(): String |
 
-| interface Item      |
-| ------------------- |
-|                     |
-| ~ getName(): String |
 
+| Armor extends Item                                                                     |
+| ---------------------------------------------------------------------------------------- |
+| ~ defense: int                                                                         |
+| + Armor(String name, int defense): Armor<br>+ getDefense(): int                         |
 
-| Armor implements Item                                                                     |
-| ----------------------------------------------------------------------------------------- |
-| ~ name: String<br>~ defense: int                                                          |
-| \+ Armor(String name, int defense): Armor<br>\+ getName(): String<br>\+ getDefense(): int |
-
-| abstract Potion implements Item                                                                  |
+| abstract Potion extends Item                                                                  |
 | ---------------------------------------------------------------------------------------------- |
-| ~ name: St                                                                                     \+ Potion(String name): Potion<br>\+ getName(): String<br>\+ abstract use(Entity entity): void ct  \+  |
+|                                                                                              |
+| + Potion(String name): Potion<br>+ abstract use(Entity entity): void                           |
 
-| Weapon implements Item                                                                            |
-| ------------------------------------------------------------------------------------------------- |
-| ~ name: String<br>~ baseDamage: int                                                               |
-| \+ Weapon(String name, int baseDamage): Weapon<br>\+ getName(): String<br>\+ getBaseDamage(): int |
+| Weapon extends Item                                                                            |
+| ------------------------------------------------------------------------------------------------ |
+| ~ baseDamage: int                                                                                |
+| + Weapon(String name, int baseDamage): Weapon<br>+ getBaseDamage(): int                         |
 ## Entity
 
 | abstract Entity                                                                                                                                 |
