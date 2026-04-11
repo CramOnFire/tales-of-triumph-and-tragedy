@@ -10,8 +10,8 @@ public class EnemyFactory {
                 int roll = random.nextInt(3);
                 if (roll == 0) return new Slime();
                 if (roll == 1) return new Enemy1();
-                return Enemy2();
-                //will change name and add more enemies
+                return new Enemy2();
+                // will change name and add more enemies
 
             case "mountain":
                 return new Dragon();
