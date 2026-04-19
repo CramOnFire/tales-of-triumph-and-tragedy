@@ -14,7 +14,7 @@ public class ForestArea implements Area {
     public int showMenu() {
         System.out.println("\n=== FOREST ===");
         System.out.println("1. Fight");
-        System.out.println("2. Run");
+        System.out.println("2. Run"); // Change to leave
         return 2;
     }
 

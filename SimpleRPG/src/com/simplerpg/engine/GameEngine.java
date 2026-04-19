@@ -19,7 +19,11 @@ public class GameEngine {
     public void run() {
         System.out.println("=== SIMPLE RPG START ===");
 
+        // Display lore, press enter to read the next line.
+        // After that, the player will be taken to the town area.
+
         while (true) {
+            // Edge case: The player should be able to exit during combat, but they need to try to flee.
             int max = currentArea.showMenu();
             int choice = input.getValidInt(1, max);
             currentArea.handleChoice(choice);
@@ -37,5 +41,4 @@ public class GameEngine {
     public Market getMarket() {
         return market;
     }
-
 }

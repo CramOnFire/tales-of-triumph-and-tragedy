@@ -2,6 +2,7 @@ package com.simplerpg.area;
 
 import com.simplerpg.engine.GameEngine;
 
+// Change to path area, where the player can choose to fight in the forest or fight the dragon boss.
 public class FightingArea implements Area {
 
     private GameEngine engine;
