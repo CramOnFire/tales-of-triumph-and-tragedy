@@ -6,6 +6,5 @@ public class ReinforcedDecorator extends ArmorDecorator {
         super(armor);
         this.name = "Reinforced " + armor.getName();
         this.defense = armor.getDefense() * 1.1;
-        //May change to percentage value
     }
 }

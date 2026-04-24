@@ -6,6 +6,5 @@ public class ChippedDecorator extends WeaponDecorator {
         super(weapon);
         this.name = "Chipped " + weapon.getName();
         this.baseDamage = weapon.getBaseDamage() * 0.8;
-        // Damage modifier can be changed later
     }
 }

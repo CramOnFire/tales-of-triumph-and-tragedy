@@ -6,6 +6,5 @@ public class KeenDecorator extends WeaponDecorator {
         super(weapon);
         this.name = "Keen " + weapon.getName();
         this.baseDamage = weapon.getBaseDamage() * 1.1;
-        // Damage modifier can be changed later
     }
 }
