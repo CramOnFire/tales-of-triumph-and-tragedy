@@ -1,11 +1,11 @@
 package com.simplerpg.entity;
 
 public abstract class Entity {
-    String name;
-    int health;
-    int maxHealth;
-    int baseAttack;
-    int baseDefense;
+    private String name;
+    private int health;
+    private int maxHealth;
+    private final int baseAttack;
+    private final int baseDefense;
     private int gold; // For the player, this represents the amount of gold they have. For enemies, this can represent the amount of gold they drop when defeated.
 
     public Entity(String name, int maxHealth, int baseAttack, int baseDefense, int gold) {
@@ -30,6 +30,44 @@ public abstract class Entity {
             // When an enemy dies, we can add logic here to drop loot, give experience, etc.
             // When the player dies, we can add logic here to end the game, show a game over screen, etc.
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = Math.max(0, Math.min(health, maxHealth));
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        if (maxHealth < 1) {
+            throw new IllegalArgumentException("maxHealth must be at least 1.");
+        }
+        this.maxHealth = maxHealth;
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
+    }
+
+    public int getBaseAttack() {
+        return baseAttack;
+    }
+
+    public int getBaseDefense() {
+        return baseDefense;
     }
 
     public int getGold() {
