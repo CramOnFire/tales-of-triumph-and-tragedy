@@ -6,6 +6,5 @@ public class LegendaryDecorator extends WeaponDecorator {
         super(weapon);
         this.name = "Legendary " + weapon.getName();
         this.baseDamage = weapon.getBaseDamage() * 1.2;
-        // Damage modifier can be changed later
     }
 }

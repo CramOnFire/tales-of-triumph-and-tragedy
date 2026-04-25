@@ -6,6 +6,5 @@ public class SharpDecorator extends WeaponDecorator {
         super(weapon);
         this.name = "Sharp " + weapon.getName();
         this.baseDamage = weapon.getBaseDamage() * 1.05;
-        // Damage modifier can be changed later
     }
 }

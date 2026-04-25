@@ -82,9 +82,9 @@ public class Player extends Entity {
     public Armor getEquippedArmor() { return equippedArmor; }
     public void setEquippedArmor(Armor armor) { this.equippedArmor = armor; }
 
-    public int getHealth() { return health; }
-    public int getMaxHealth() { return maxHealth; }
+    public int getHealth() { return super.getHealth(); }
+    public int getMaxHealth() { return super.getMaxHealth(); }
     public void heal(int amount) {
-        health = Math.min(health + amount, maxHealth);
+        setHealth(getHealth() + amount);
     }
 }

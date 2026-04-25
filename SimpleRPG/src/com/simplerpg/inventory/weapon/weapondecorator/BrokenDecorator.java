@@ -6,6 +6,5 @@ public class BrokenDecorator extends WeaponDecorator {
         super(weapon);
         this.name = "Broken " + weapon.getName();
         this.baseDamage = weapon.getBaseDamage() * 0.20;
-        // Damage modifier can be changed later
     }
 }
