@@ -12,5 +12,4 @@ public class Weapon extends Item {
     public double getBaseDamage() {
         return baseDamage;
     }
-
 }
