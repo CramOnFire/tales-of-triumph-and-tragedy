@@ -16,8 +16,8 @@ public class GameEngine {
  
     public GameEngine() {
         input = new InputHandler();
-        player = new Player("Hero");
-        player.addGold(500000000);
+        player = new Player("Aaron");
+        // player.addGold(100000);
         currentArea = new TownArea(this);
         running = true;
     }
@@ -27,12 +27,19 @@ public class GameEngine {
     }
  
     public void run() {
-        System.out.println("=== SIMPLE RPG START ===");
+        System.out.println("- Tales of Triumph and Tragedy -");
 
         printLoreSequence(new String[] {
-            "[Intro Placeholder] A restless wind blows over the old road.",
-            "[Intro Placeholder] The kingdom waits for a hero to decide its fate.",
-            "[Intro Placeholder] Your journey begins now."
+            "Sword and shield, medieval kingdom, and a looming dragon threat.",
+            "Old tomes of a hero's journey, from humble beginnings to legendary deeds.",
+            "All fitting elements of a fantasy.",
+            "But why would these inscriptions be written in a language indecipherable to a child?",
+            player.getName() + ": Growing up on the streets, I faced poverty and hardship.",
+            player.getName() + ": I never believed in these ancient legends, all I cared about was survival.",
+            "A divination was performed: The dragon will awaken from its slumber, and only a hero can stop it.",
+            "The king offered a reward to anyone who could defeat the dragon, but no one dared to face it.",
+            player.getName() + ": At this point, I had nothing to lose. I decided to take on the challenge, hoping to change my fate.",
+            "And so begins the tale of " + player.getName() + ", the unlikely hero destined to confront the dragon and save the kingdom."
         });
 
         while (running) {
@@ -87,9 +94,8 @@ public class GameEngine {
 
     private void printLoreSequence(String[] lines) {
         for (int i = 0; i < lines.length; i++) {
-            System.out.println(lines[i]);
+            System.out.print(lines[i]);
             if (i < lines.length - 1) {
-                System.out.println("Press Enter for next line...");
                 input.waitForEnter();
             }
         }

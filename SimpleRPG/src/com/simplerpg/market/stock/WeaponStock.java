@@ -15,8 +15,8 @@ public class WeaponStock {
 
     public WeaponStock() {
         items.add(new ShopItem("Iron Sword",          15,  100));
-        items.add(new ShopItem("Knight's Longsword", 40,  350));
-        items.add(new ShopItem("Royal Greatsword",    100, 900));
+        items.add(new ShopItem("Knight's Longsword", 40,  250));
+        items.add(new ShopItem("Royal Greatsword",    100, 600));
         sold = new boolean[items.size()];
     }
 
