@@ -27,6 +27,7 @@ public class CombatLoop {
     public enum CombatResult {
         STAY_IN_AREA,
         EXIT_AREA,
+        ENEMY_DEFEATED,
         PLAYER_DEAD
     }
 
@@ -35,6 +36,10 @@ public class CombatLoop {
     }
 
     public CombatResult start(EnemySpawner spawner) {
+        return start(spawner, true);
+    }
+
+    public CombatResult start(EnemySpawner spawner, boolean allowMultipleEnemies) {
         Player player = engine.getPlayer();
         CombatContext context = new CombatContext();
 
@@ -42,6 +47,11 @@ public class CombatLoop {
 
         while (player.getHealth() > 0) {
             if (enemy == null || enemy.getHealth() <= 0) {
+                if (!allowMultipleEnemies) {
+                    context.clearTemporaryBuffs();
+                    return CombatResult.ENEMY_DEFEATED;
+                }
+
                 int postFightChoice = askPostFightChoice();
                 if (postFightChoice == 2) {
                     context.clearTemporaryBuffs();
