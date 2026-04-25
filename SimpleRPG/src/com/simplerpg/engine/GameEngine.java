@@ -17,7 +17,7 @@ public class GameEngine {
     public GameEngine() {
         input = new InputHandler();
         player = new Player("Aaron");
-        player.addGold(500000000);
+        // player.addGold(100000);
         currentArea = new TownArea(this);
         running = true;
     }

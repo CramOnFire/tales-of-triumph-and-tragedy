@@ -16,9 +16,9 @@ public class ArmorStock {
 
     public ArmorStock() {
         items.add(new ShopItem("Leather Armor",       5,   80));
-        items.add(new ShopItem("Chainmail Armor",     15,  200));
-        items.add(new ShopItem("Knight Armor",        40,  450));
-        items.add(new ShopItem("Dragon Hunter Armor", 100, 950));
+        items.add(new ShopItem("Chainmail Armor",     15,  150));
+        items.add(new ShopItem("Knight Armor",        40,  350));
+        items.add(new ShopItem("Dragon Hunter Armor", 100, 700));
         sold = new boolean[items.size()];
     }
 

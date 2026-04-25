@@ -2,6 +2,6 @@ package com.simplerpg.entity.enemy;
 
 public class Sorcerer extends Enemy {
     public Sorcerer() {
-        super("Sorcerer", 80, 12, 10, 25);
+        super("Sorcerer", 80, 12, 10, 80);
     }
 }
