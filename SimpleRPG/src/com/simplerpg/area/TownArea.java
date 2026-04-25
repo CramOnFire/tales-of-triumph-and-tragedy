@@ -4,7 +4,6 @@ import com.simplerpg.market.Market;
 
 
 public class TownArea implements Area {
-    
 
     private GameEngine engine;
 

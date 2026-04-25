@@ -14,5 +14,5 @@ public abstract class WeaponDecorator extends Weapon {
 
     public Weapon removeDecorator() {
     return wrappedWeapon;
-}
+    }
 }

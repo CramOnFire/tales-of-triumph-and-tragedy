@@ -17,7 +17,7 @@ public abstract class Entity {
         this.gold = gold;
     }
 
-    // Overloaded constructor for entities that don't have gold (like certain enemies or the player at the start of the game)
+    // Overloaded constructor for entities that don't have gold (like the player at the start of the game)
     public Entity(String name, int maxHealth, int baseAttack, int baseDefense) {
         this(name, maxHealth, baseAttack, baseDefense, 0);
     }

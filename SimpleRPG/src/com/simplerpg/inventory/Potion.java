@@ -3,7 +3,7 @@ package com.simplerpg.inventory;
 import com.simplerpg.entity.Player;
 import com.simplerpg.combat.CombatContext;
 
-// Define an abstract class for potions, which can be extended to create specific types of potions (e.g., health, mana, strength).
+// Define an abstract class for potions, which can be extended to create specific types of potions.
 public abstract class Potion extends Item {
 
     public Potion(String name) {
@@ -15,9 +15,4 @@ public abstract class Potion extends Item {
 
     // Describe the potion's effect for UI display
     public abstract String getEffectDescription();
-
-    // Legacy method for compatibility
-    public void use() {
-        // Default no-op; use applyInCombat instead.
-    }
 }

@@ -59,21 +59,6 @@ public class Player extends Entity {
         }
     }
 
-    // Waiting for potion implementation to be completed before implementing this method, as the use() method of the Potion class is currently abstract and not defined.
-    public void usePotion(Potion potion) {
-        try {
-            if (inventory.contains(potion)) {
-                potion.use();
-                inventory.remove(potion);
-                System.out.println("Used potion: " + potion.getName());
-            } else {
-                System.out.println("You don't have that potion in your inventory.");
-            }
-        } catch (Exception e) {
-            System.out.println("Error using potion: " + e.getMessage());
-        }
-    }
-
     public List<Item> getInventory() { return inventory; }
 
     public Weapon getEquippedWeapon() { return equippedWeapon; }

@@ -8,6 +8,6 @@ public abstract class ArmorDecorator extends Armor {
         super(armor.getName(), armor.getDefense());
         this.wrappedArmor = armor;
     }
-    public Armor removeDecorator() { return wrappedArmor; }
     
+    public Armor removeDecorator() { return wrappedArmor; }
 }

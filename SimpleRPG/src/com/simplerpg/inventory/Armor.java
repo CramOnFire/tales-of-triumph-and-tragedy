@@ -11,5 +11,4 @@ public class Armor extends Item {
     public double getDefense() {
         return defense;
     }
-
 }
