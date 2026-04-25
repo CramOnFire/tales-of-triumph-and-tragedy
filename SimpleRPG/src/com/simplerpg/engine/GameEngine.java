@@ -36,7 +36,6 @@ public class GameEngine {
         });
 
         while (running) {
-            // Edge case: The player should be able to exit during combat, but they need to try to flee.
             int max = currentArea.showMenu();
             int choice = input.getValidInt(1, max);
             currentArea.handleChoice(choice);
