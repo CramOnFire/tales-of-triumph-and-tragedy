@@ -13,9 +13,9 @@ public class PotionStock {
     private final List<ShopItem> items = new ArrayList<>();
 
     public PotionStock() {
-        items.add(new ShopItem("Lesser Health Potion", 30,  50));
-        items.add(new ShopItem("Health Potion",       75,  120));
-        items.add(new ShopItem("Greater Health Potion", 150, 220));
+        items.add(new ShopItem("Lesser Health Potion", 25,  50));
+        items.add(new ShopItem("Health Potion",       50,  120));
+        items.add(new ShopItem("Greater Health Potion", 100, 220));
         items.add(new ShopItem("Strength Potion", 20, 140));
         items.add(new ShopItem("Tough Potion", 15, 100));
     }

@@ -11,6 +11,7 @@ import com.simplerpg.inventory.weapon.weapondecorator.*;
 import com.simplerpg.market.stock.ArmorStock;
 import com.simplerpg.market.stock.ShopItem;
 import com.simplerpg.market.stock.WeaponStock;
+import com.simplerpg.inventory.InventoryMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,6 @@ public class Blacksmith implements Area {
 
     private final WeaponStock weaponStock = new WeaponStock();
     private final ArmorStock  armorStock  = new ArmorStock();
-
-    private static final int MODIFY_COST = 75;
 
     private static final String[] WEAPON_DECORATORS =
         { "Sharp", "Keen", "Legendary", "Dull", "Chipped", "Broken" };
@@ -43,9 +42,10 @@ public class Blacksmith implements Area {
         System.out.println("1. Purchase Weapon");
         System.out.println("2. Purchase Armor");
         System.out.println("3. Modify Item");
-        System.out.println("4. Exit Blacksmith");
+        System.out.println("4. Manage Inventory");
+        System.out.println("5. Exit Blacksmith");
         System.out.print("Choose: ");
-        return 4;
+        return 5;
     }
 
     @Override
@@ -54,7 +54,8 @@ public class Blacksmith implements Area {
             case 1: handlePurchaseWeapon(); break;
             case 2: handlePurchaseArmor();  break;
             case 3: handleModify();         break;
-            case 4: engine.setArea(new Market(engine)); break;
+            case 4: new InventoryMenu(engine).show(); break;
+            case 5: engine.setArea(new Market(engine)); break;
         }
     }
 
@@ -151,18 +152,19 @@ public class Blacksmith implements Area {
         if (modifiables.isEmpty()) { System.out.println("You have no weapons or armors to modify."); return; }
 
         System.out.println("\n--- YOUR ITEMS ---");
-        System.out.printf("Modify cost: %d gold | Your gold: %d%n%n", MODIFY_COST, player.getGold());
+        System.out.printf("Your gold: %d%n%n", player.getGold());
 
         for (int i = 0; i < modifiables.size(); i++) {
             Item item = modifiables.get(i);
+            int modCost = getModifyCost(item);
             if (item instanceof Weapon) {
                 Weapon w = (Weapon) item;
                 String tag = (w instanceof WeaponDecorator) ? "[MODIFIED]" : "[NO MOD]  ";
-                System.out.printf("%d. %s %-28s | DMG: %.1f%n", i + 1, tag, w.getName(), w.getBaseDamage());
+                System.out.printf("%d. %s %-28s | DMG: %.1f | Modify cost: %d gold%n", i + 1, tag, w.getName(), w.getBaseDamage(), modCost);
             } else {
                 Armor a = (Armor) item;
                 String tag = (a instanceof ArmorDecorator) ? "[MODIFIED]" : "[NO MOD]  ";
-                System.out.printf("%d. %s %-28s | DEF: %.1f%n", i + 1, tag, a.getName(), a.getDefense());
+                System.out.printf("%d. %s %-28s | DEF: %.1f | Modify cost: %d gold%n", i + 1, tag, a.getName(), a.getDefense(), modCost);
             }
         }
         System.out.printf("%d. Cancel%n", modifiables.size() + 1);
@@ -172,59 +174,77 @@ public class Blacksmith implements Area {
         if (iChoice == modifiables.size() + 1) return;
 
         Item target = modifiables.get(iChoice - 1);
+        int modifyCost = getModifyCost(target);
 
-        if (player.getGold() < MODIFY_COST) { System.out.println("Not enough gold! Modification costs " + MODIFY_COST + " gold."); return; }
+        if (player.getGold() < modifyCost) { System.out.println("Not enough gold! Modification costs " + modifyCost + " gold."); return; }
 
-        if (target instanceof Weapon) modifyWeapon(player, (Weapon) target);
-        else                          modifyArmor(player, (Armor) target);
+        if (target instanceof Weapon) modifyWeapon(player, (Weapon) target, modifyCost);
+        else                          modifyArmor(player, (Armor) target, modifyCost);
     }
 
-    private void modifyWeapon(Player player, Weapon target) {
+    // Modification cost = 30% of the item's base purchase price, minimum 10 gold.
+    private int getModifyCost(Item item) {
+        List<ShopItem> allItems = new ArrayList<>();
+        allItems.addAll(weaponStock.getItems());
+        allItems.addAll(armorStock.getItems());
+
+        String baseName = item.getName()
+            .replaceAll("(?i)^(sharp|keen|legendary|dull|chipped|broken|hardened|reinforced|unbreakable|worn|damaged|shattered)\\s+", "");
+
+        for (ShopItem s : allItems) {
+            if (s.getName().equalsIgnoreCase(baseName)) {
+                return Math.max(10, (int) (s.getPrice() * 0.30));
+            }
+        }
+        return 50; // fallback if item isn't from the shop
+    }
+
+    private void modifyWeapon(Player player, Weapon target, int modifyCost) {
         Weapon base = (target instanceof WeaponDecorator)
             ? ((WeaponDecorator) target).removeDecorator() : target;
 
         String roll     = WEAPON_DECORATORS[random.nextInt(WEAPON_DECORATORS.length)];
         Weapon modified = applyWeaponDecorator(base, roll);
 
-        player.deductGold(MODIFY_COST);
+        player.deductGold(modifyCost);
         int idx = player.getInventory().indexOf(target);
         player.getInventory().set(idx, modified);
         if (player.getEquippedWeapon() == target) player.setEquippedWeapon(modified);
 
         System.out.printf("%nResult: %s (DMG: %.1f)%n", modified.getName(), modified.getBaseDamage());
         System.out.printf("Remaining gold: %d%n", player.getGold());
-        rerollWeapon(player, modified, base, idx);
+        rerollWeapon(player, modified, base, idx, modifyCost);
     }
 
-    private void modifyArmor(Player player, Armor target) {
+    private void modifyArmor(Player player, Armor target, int modifyCost) {
         Armor base = (target instanceof ArmorDecorator)
             ? ((ArmorDecorator) target).removeDecorator() : target;
 
         String roll    = ARMOR_DECORATORS[random.nextInt(ARMOR_DECORATORS.length)];
         Armor modified = applyArmorDecorator(base, roll);
 
-        player.deductGold(MODIFY_COST);
+        player.deductGold(modifyCost);
         int idx = player.getInventory().indexOf(target);
         player.getInventory().set(idx, modified);
 
         System.out.printf("%nResult: %s (DEF: %.1f)%n", modified.getName(), modified.getDefense());
         System.out.printf("Remaining gold: %d%n", player.getGold());
-        rerollArmor(player, modified, base, idx);
+        rerollArmor(player, modified, base, idx, modifyCost);
     }
 
-    private void rerollWeapon(Player player, Weapon current, Weapon base, int invIdx) {
+    private void rerollWeapon(Player player, Weapon current, Weapon base, int invIdx, int modifyCost) {
         while (true) {
-            if (player.getGold() < MODIFY_COST) { System.out.println("Not enough gold to reroll. Keeping current modifier."); return; }
+            if (player.getGold() < modifyCost) { System.out.println("Not enough gold to reroll. Keeping current modifier."); return; }
             System.out.println("\nSatisfied with the modifier?");
             System.out.println("1. Keep it");
-            System.out.printf("2. Reroll (costs %d gold | Your gold: %d)%n", MODIFY_COST, player.getGold());
+            System.out.printf("2. Reroll (costs %d gold | Your gold: %d)%n", modifyCost, player.getGold());
             System.out.print("Choose: ");
 
             if (engine.getInput().getValidInt(1, 2) == 1) { System.out.println("Confirmed: " + current.getName()); return; }
 
             String roll    = WEAPON_DECORATORS[random.nextInt(WEAPON_DECORATORS.length)];
             Weapon rerolled = applyWeaponDecorator(base, roll);
-            player.deductGold(MODIFY_COST);
+            player.deductGold(modifyCost);
             player.getInventory().set(invIdx, rerolled);
             if (player.getEquippedWeapon() == current) player.setEquippedWeapon(rerolled);
             current = rerolled;
@@ -233,19 +253,19 @@ public class Blacksmith implements Area {
         }
     }
 
-    private void rerollArmor(Player player, Armor current, Armor base, int invIdx) {
+    private void rerollArmor(Player player, Armor current, Armor base, int invIdx, int modifyCost) {
         while (true) {
-            if (player.getGold() < MODIFY_COST) { System.out.println("Not enough gold to reroll. Keeping current modifier."); return; }
+            if (player.getGold() < modifyCost) { System.out.println("Not enough gold to reroll. Keeping current modifier."); return; }
             System.out.println("\nSatisfied with the modifier?");
             System.out.println("1. Keep it");
-            System.out.printf("2. Reroll (costs %d gold | Your gold: %d)%n", MODIFY_COST, player.getGold());
+            System.out.printf("2. Reroll (costs %d gold | Your gold: %d)%n", modifyCost, player.getGold());
             System.out.print("Choose: ");
 
             if (engine.getInput().getValidInt(1, 2) == 1) { System.out.println("Confirmed: " + current.getName()); return; }
 
             String roll   = ARMOR_DECORATORS[random.nextInt(ARMOR_DECORATORS.length)];
             Armor rerolled = applyArmorDecorator(base, roll);
-            player.deductGold(MODIFY_COST);
+            player.deductGold(modifyCost);
             player.getInventory().set(invIdx, rerolled);
             current = rerolled;
             System.out.printf("Rerolled: %s (DEF: %.1f) | Remaining gold: %d%n",

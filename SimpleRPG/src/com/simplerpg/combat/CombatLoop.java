@@ -9,6 +9,7 @@ import com.simplerpg.entity.Player;
 import com.simplerpg.entity.enemy.Enemy;
 import com.simplerpg.inventory.Item;
 import com.simplerpg.inventory.Potion;
+import com.simplerpg.inventory.InventoryMenu;
 
 public class CombatLoop {
 
@@ -111,9 +112,10 @@ public class CombatLoop {
             System.out.println("3. Charge");
             System.out.println("4. Flee");
             System.out.println("5. Use Potion");
+            System.out.println("6. Manage Equipment (free)");
             System.out.print("Choose: ");
 
-            int choice = engine.getInput().getValidInt(1, 5);
+            int choice = engine.getInput().getValidInt(1, 6);
             switch (choice) {
                 case 1:
                     return attackAction;
@@ -123,8 +125,11 @@ public class CombatLoop {
                     return chargeAction;
                 case 4:
                     return fleeAction;
-                default:
+                case 5:
                     usePotionInCombat(player, context);
+                    break;
+                default: // case 6 — no turn consumed, loop back
+                    new InventoryMenu(engine).show();
                     break;
             }
         }

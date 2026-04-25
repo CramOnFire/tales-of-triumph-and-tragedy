@@ -1,17 +1,32 @@
 package com.simplerpg.entity.enemy;
 import java.util.Random;
 
-// To do: Add more enemy types using random floats to determine which enemy to spawn. Weaker enemies should be more common.
 public class EnemyFactory {
     private Random random = new Random();
 
+    private int weightedRoll(int[] weights) {
+        int total = 0;
+        for (int w : weights) total += w;
+
+        int roll = random.nextInt(total);
+        int cumulative = 0;
+        for (int i = 0; i < weights.length; i++) {
+            cumulative += weights[i];
+            if (roll < cumulative) return i;
+        }
+        return weights.length - 1;
+    }
+
     public Enemy createEnemy(String areaName) {
         switch (areaName.toLowerCase()) {
-            case "forest":
-                int roll = random.nextInt(3);
-                if (roll == 0) return new Slime();
-                if (roll == 1) return new Snake();
+            case "forest": {
+                // Slime=60%, Snake=30%, Sorcerer=10%
+                int[] weights = {60, 30, 10};
+                int tier = weightedRoll(weights);
+                if (tier == 0) return new Slime();
+                if (tier == 1) return new Snake();
                 return new Sorcerer();
+            }
 
             case "mountain":
                 return new Dragon();
