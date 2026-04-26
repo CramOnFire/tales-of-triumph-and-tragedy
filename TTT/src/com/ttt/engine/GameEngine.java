@@ -74,13 +74,11 @@ public class GameEngine {
         System.out.println("\n=== VICTORY ===");
 
         printLoreSequence(new String[] {
-            "",
-
-
-            
-            "[Ending Placeholder] The dragon falls, and silence returns to the mountains.",
-            "[Ending Placeholder] Fires in distant villages burn with hope once again.",
-            "[Ending Placeholder] But your story does not have to end here."
+            "The dragon has been defeated, and silence returns to the mountains.",
+            "The kingdom is saved from calamity, no longer bound by fear.",
+            "Villagers celebrate, and the hero's name is etched into history.",
+            "You begin your new life as a royal knight, free from the hardships of your past.",
+            "But deep down, you know that the world is full of challenges, and your journey is far from over."
         });
 
         System.out.println("1. Continue playing");
