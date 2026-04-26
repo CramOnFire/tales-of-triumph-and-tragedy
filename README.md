@@ -1,6 +1,6 @@
 # Tales of Triumph and Tragedy
 
-![](https://i.ibb.co/DPbwDvgM/TTT-cropped.avif)
+![](https://i.ibb.co/MqNR992/TTT.avif)
 
 ## How to run:
 1. Clone the repository
